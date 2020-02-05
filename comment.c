@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
-#define MAX 100
+#define MAXIMUM 80
 
 bool open_io_files(int argc, const char* argv[], FILE** fin, FILE** fout,
                    int min_expected_argc, int max_expected_argc,
@@ -45,17 +45,15 @@ void closefiles(int n, ...) {   // uses varargs (variable # of args)
   va_end (pargs);   // clean up
 }
 
-void removeComment(char *c){
-       int a, b;
+void CommentRemove(char *c){
+       int i, j;
 
-       for(a=b=0; c[b] ;){
-              if(c[b]=='/' && c[b+1] == '/') {for(b= b+2; c[b] && c[b++]!= '\n';) ; }
-              else if (c[b] == '/' && c[b+1] == '*'){
-                     for(b=b+2; c[b] && c[++b] && (c[b-1]!='*' || c[b]!='/' || !b++); );
-              }
-              else {c[a++] = c[b++];}
-       }
-       c[a]='\0';
+       for(i=j=0; c[j] ;){
+              if(c[j]=='/' && c[j+1] == '/') {for(j= j+2; c[j] && c[j++]!= '\n';) ; }
+              else if (c[j] == '/' && c[j+1] == '*'){
+                     for(j = j+2; c[j] && c[++j] && (c[j-1]!='*' || c[j]!='/' || !j++); );}
+              else {c[i++] = c[j++];}}
+       c[i]='\0';
 }
 
 int main(int argc, const char * argv[]) {
@@ -63,14 +61,11 @@ FILE* fin;
 FILE* fout;
 int i = 0;
 int c = 0;
-char file[MAX];
+char input[MAXIMUM];
 
-while((c = fgetc(fin))!=EOF && i < MAX){
-file[i] = fgetc(fin);
-++i;
-}
-removeComment(file);
-fputs(file, fout);
+fgets(file, MAXIMUM, fin);
+CommentRemove(input);
+fputs(input, fout);
 closefiles(2, fin, fout);
 return 0;
 }
