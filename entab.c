@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "files.h"
 #include <stdarg.h>
 #include <stdbool.h>
 
@@ -59,7 +58,7 @@ int main(int argc, const char * argv[]) {
   }
 
        // open input and output files
-  if (!open_io_files(argc, argv, &fin, &fout, 3, 4,                   "Usage: ./entab inputfile outputfile tab_interval (optional)\n")) {
+  if (!open_io_files(argc, argv, &fin, &fout, 3, 4, "Usage: ./entab inputfile outputfile tab_interval (optional)\n")) {
     exit(1);
   }
 
