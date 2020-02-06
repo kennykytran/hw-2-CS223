@@ -57,7 +57,7 @@ int main(int argc, const char * argv[]) {
     exit(2);
   }
 
-  if (!open_io_files(argc, argv, &fin, &fout, 3, 4, "Usage: ./entab inputfile outputfile column (optional)\n")) {
+  if (!open_io_files(argc, argv, &fin, &fout, 3, 4, "Usage: ./fold inputfile outputfile column (optional)\n")) {
     exit(1);
   }
   int c;
