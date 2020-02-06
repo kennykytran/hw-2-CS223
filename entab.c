@@ -58,29 +58,31 @@ int main(int argc, const char * argv[]) {
   }
 
        // open input and output files
-  if (!open_io_files(argc, argv, &fin, &fout, 3, 4, "Usage: ./entab inputfile outputfile tab_interval (optional)\n")) {
+  if (!open_io_files(argc, argv, &fin, &fout, 3, 4,                   "Usage: ./entab inputfile outputfile tab_interval (optional)\n")) {
     exit(1);
   }
 
   //process to entab
 
-   fprintf(fout, "Entab function\n");
-  int c,i,j,l;
-  c = i = j = l = 0;
+     int c,s,t;
+     int index = 1;
+     c = s = t = 0;
 
-  while((c = fgetc(fin)) != EOF){
-    if (c != ' ') {fputc(c, fout);}
-    if(c == ' '){++i;
-    if(i%TAB_INTERVAL > 0) {j = i%TAB_INTERVAL;}
+     while((c=fgetc(fin))!=EOF){
+      if(c==' '){
+         while((c=fgetc(fin))!=EOF && c==' ') index++;
 
-    if((j%TAB_INTERVAL) == 0) {fputc('\t', fout);}
-    else{
-       while((j%TAB_INTERVAL)>0){
-         j--;
-         fputc(' ', fout);}}
-    i=0;
-  }
-}
+         s = index % TAB_INTERVAL;
+         t = index / TAB_INTERVAL;
+
+         while(t-- > 0) fputc('\t' , fout);
+
+         while(s-- > 0) fputc(' ' , fout);}
+
+     if (c != ' ') {fputc(c, fout);}
+
+    index = 1;}
+
   closefiles(2, fin, fout);  // must say number of files
 
   return 0;
