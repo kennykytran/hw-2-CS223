@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,24 +48,34 @@ void closefiles(int n, ...) {   // uses varargs (variable # of args)
 void CommentRemove(char *c){
        int i, j;
 
-       for(i=j=0; c[j] ;){
-              if(c[j]=='/' && c[j+1] == '/') {for(j= j+2; c[j] && c[j++]!= '\n';) ; }
-              else if (c[j] == '/' && c[j+1] == '*'){
-                     for(j = j+2; c[j] && c[++j] && (c[j-1]!='*' || c[j]!='/' || !j++); );}
-              else {c[i++] = c[j++];}}
+       for(i = j= 0; c[j] ;){
+         if(c[j]=='/' && c[j+1] == '/') {
+           for(j= j+2; c[j] && c[j++]!= '\n';);}
+         else if (c[j] == '/' && c[j+1] == '*'){
+           for(j = j+2; c[j] && c[++j] && (c[j-1]!='*' || c[j]!='/' || !j++); );}
+         else {c[i++] = c[j++];}
+       }
        c[i]='\0';
 }
 
 int main(int argc, const char * argv[]) {
+
 FILE* fin;
 FILE* fout;
-int i = 0;
-int c = 0;
+
+int index, c;
+index = c = 0;
 char input[MAXIMUM];
 
-fgets(file, MAXIMUM, fin);
+while((c = fgetc(fin)) != EOF && index < MAXIMUM){
+  input[index] = fgetc(fin);
+  ++index;}
+
 CommentRemove(input);
+
 fputs(input, fout);
+
 closefiles(2, fin, fout);
+
 return 0;
 }
